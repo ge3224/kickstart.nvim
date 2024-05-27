@@ -3,13 +3,13 @@ return {
   opts = {},
   keys = {
     {
-      "<leader>to",
-      "<cmd>AerialToggle!<CR>",
-      desc = "Toggle Code Outline",
-    }
+      '<leader>to',
+      '<cmd>AerialToggle!<CR>',
+      desc = 'Toggle Code Outline',
+    },
   },
   dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-    "nvim-tree/nvim-web-devicons"
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-tree/nvim-web-devicons',
   },
 }
