@@ -1,3 +1,6 @@
+-- edit init.lua
+vim.keymap.set('n', '<leader>ev', '<cmd>tabedit $MYVIMRC<CR>', { silent = true })
+
 -- -- run prettier on current file
 -- vim.keymap.set('n', '<leader>P', '<cmd>!pnpm exec prettier --write %<CR>', { silent = true })
 --
@@ -22,6 +25,9 @@ vim.keymap.set('n', '<leader>lr', '<cmd>LspRestart<CR>', { silent = true })
 
 -- open a small terminal
 vim.keymap.set('n', '<leader>st', '<cmd>new<CR><C-w>J<cmd>resize 16<CR><cmd>term<CR>', { silent = true })
+
+-- fugitive mappings
+vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
 
 -- delete cached, i.e. swap file
 vim.keymap.set('n', '<leader>zc', '<cmd>call system("rm -rdf ~/.local/state/nvim/swap")<CR>', { silent = true })
