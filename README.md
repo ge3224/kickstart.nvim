@@ -129,13 +129,14 @@ examples of adding popularly requested plugins.
     `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
     distribution that you would like to try out.
 * What if I want to "uninstall" this configuration:
-  * See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  * The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the 
-    same functionality is available here:
+  * See [lazy.nvim uninstall](https://github.com/folke/lazy.nvim#-uninstalling) information
+* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to
+  split it into multiple files?
+  * The main purpose of kickstart is to serve as a teaching tool and a
+    reference configuration that someone can easily use to `git clone` as a basis
+    for their own. As you progress in learning Neovim and Lua, you might consider
+    splitting `init.lua` into smaller parts. A fork of kickstart that does this
+    while maintaining the same functionality is available here:
     * [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
   * Discussions on this topic can be found here:
     * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
@@ -244,6 +245,7 @@ sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
 ```bash
 sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
+<<<<<<< HEAD
 
 </details>
 
@@ -283,3 +285,7 @@ git merge upstream/master
 ```
 
 Resolve conflicts. Then, merge with `main`.
+=======
+
+</details>
+>>>>>>> e4977c0 (Tweak README formatting)
