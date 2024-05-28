@@ -247,3 +247,40 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 
 </details>
+
+## Configuring and Synchronizing fork with upstream project
+
+### Configure remote repository
+
+List current remote repository for the fork.
+
+```bash
+git remote -v
+```
+
+Specify a new remote `upstream` repository that will be synced with the fork.
+
+```bash
+git remote add upstream git@github.com:nvim-lua/kickstart.nvim.git
+```
+
+Verify the new upstream repository you've specified for your fork.
+
+```bash
+git remote -v
+```
+
+### Syncing with upstream fork
+
+```bash
+git fetch upstream
+```
+
+Switch to switch to an intermediary branch and merge upstream changes.
+
+```bash
+cd path/to/INTERMEDIARY_BRANCH
+git merge upstream/master
+```
+
+Resolve conflicts. Then, merge with `main`.
