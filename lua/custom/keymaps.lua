@@ -1,6 +1,3 @@
--- edit init.lua
-vim.keymap.set('n', '<leader>ev', '<cmd>tabedit $MYVIMRC<CR>', { silent = true })
-
 -- -- run prettier on current file
 -- vim.keymap.set('n', '<leader>P', '<cmd>!pnpm exec prettier --write %<CR>', { silent = true })
 --
