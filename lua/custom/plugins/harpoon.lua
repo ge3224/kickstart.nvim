@@ -2,7 +2,7 @@ return {
   'theprimeagen/harpoon',
   keys = {
     {
-      '<C-e>',
+      '<leader>ml',
       function()
         require('harpoon.ui').toggle_quick_menu()
       end,
