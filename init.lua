@@ -1,4 +1,4 @@
---[[ todo ]]
+--[[ This is my personal Neovim configuration file, built upon the `nvim-lua/kickstart.nvim` project. ]]
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
