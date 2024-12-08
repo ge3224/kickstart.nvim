@@ -245,8 +245,6 @@ sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
 ```bash
 sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
-<<<<<<< HEAD
-
 </details>
 
 ## Configuring and Synchronizing fork with upstream project
@@ -283,9 +281,4 @@ Switch to switch to an intermediary branch and merge upstream changes.
 cd path/to/INTERMEDIARY_BRANCH
 git merge upstream/master
 ```
-
 Resolve conflicts. Then, merge with `main`.
-=======
-
-</details>
->>>>>>> e4977c0 (Tweak README formatting)
