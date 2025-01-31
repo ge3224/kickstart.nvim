@@ -1,7 +1,5 @@
--- [[ Basic Keymaps ]]
+-- [[ Kickstart Keymap Suggestions ]]
 --  See `:help vim.keymap.set()`
-
------ Kickstart Keymap Suggestion -----
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -10,7 +8,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
------ Personal Keymaps --------
+-- [[ Personal Keymaps ]]
 
 -- Move line selections up or down
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { silent = true })

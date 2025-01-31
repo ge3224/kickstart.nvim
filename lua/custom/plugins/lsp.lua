@@ -3,17 +3,17 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
-    { "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
+    -- Mason must be loaded before its dependents so we need to set it up here.
+    -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+    { "williamboman/mason.nvim", opts = {} },
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
 
     -- Useful status updates for LSP.
-    -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
     { "j-hui/fidget.nvim", opts = {} },
 
-    -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    { "folke/neodev.nvim", opts = {} },
+    -- Allows extra capabilities provided by nvim-cmp
+    "hrsh7th/cmp-nvim-lsp",
   },
   config = function()
     -- Brief aside: **What is LSP?**
@@ -53,8 +53,9 @@ return {
         --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
-        local map = function(keys, func, desc)
-          vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+        local map = function(keys, func, desc, mode)
+          mode = mode or "n"
+          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
         -- Jump to the definition of the word under your cursor.
@@ -88,11 +89,7 @@ return {
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
-        -- Opens a popup that displays documentation about the word under your cursor
-        --  See `:help K` for why this keymap.
-        map("K", vim.lsp.buf.hover, "Hover Documentation")
+        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
@@ -104,7 +101,7 @@ return {
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.server_capabilities.documentHighlightProvider then
+        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
           local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
           vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
             buffer = event.buf,
@@ -127,17 +124,27 @@ return {
           })
         end
 
-        -- The following autocommand is used to enable inlay hints in your
+        -- The following code creates a keymap to toggle inlay hints in your
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
           map("<leader>th", function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, "[T]oggle Inlay [H]ints")
         end
       end,
     })
+
+    -- Change diagnostic symbols in the sign column (gutter)
+    -- if vim.g.have_nerd_font then
+    --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
+    --   local diagnostic_signs = {}
+    --   for type, icon in pairs(signs) do
+    --     diagnostic_signs[vim.diagnostic.severity[type]] = icon
+    --   end
+    --   vim.diagnostic.config { signs = { text = diagnostic_signs } }
+    -- end
 
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -169,10 +176,20 @@ return {
       -- tsserver = {},
       --
       denols = {
+        filetypes = { "typescript", "typescriptreact" },
         root_dir = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc"),
       },
       ts_ls = {
-        root_dir = require("lspconfig.util").root_pattern "package.json",
+        filetypes = { "typescript", "typescriptreact" },
+        root_dir = function(fname)
+          -- Check if deno config exists
+          local deno_root = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")(fname)
+          if deno_root then
+            return nil -- Don't attach tsserver if deno config exists
+          end
+          -- Otherwise, look for package.json
+          return require("lspconfig.util").root_pattern "package.json"(fname)
+        end,
         single_file_support = false,
       },
       lua_ls = {

@@ -1,9 +1,7 @@
--- [[ Setting options ]]
+-- [[ Kickstart Setting Options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
-
------- Kickstart Option Suggestions ------
 
 -- Make line numbers default
 vim.opt.number = true
@@ -41,6 +39,9 @@ vim.opt.signcolumn = "yes"
 -- Decrease update time
 vim.opt.updatetime = 250
 
+-- Decrease mapped sequence wait time
+vim.opt.timeoutlen = 300
+
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -60,18 +61,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
-
------ Personal Options ------
+-- [[Personal Options]]
 
 -- Don't wrap long lines
 vim.wo.wrap = false
